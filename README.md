@@ -39,6 +39,10 @@ Mouse: drag up and down to adjust a knob. **Shift + drag** adjusts in finer step
 **Typing exact values:** right-click a knob or slider (or Ctrl + click it), type the value (for example `-7` for Pitch, or `35` for 35 %) and press **Enter**. **Esc** cancels.
 Choose presets with the arrows at the top, or click the preset name to get a list.
 
+**Color themes:** click one of the colored dots next to *THEME* at the bottom of the window: Blue (default), Green, Purple, Yellow, Red, Dark (gray) or White. The theme is saved with your FL Studio project.
+
+![Themes](themes.png)
+
 ## Controlling Mutaform with MIDI in FL Studio (MONO/POLY)
 
 1. Set Mutaform to **MONO** or **POLY**.
@@ -87,5 +91,6 @@ Version 1.1.1 removes the stutter when the plugin is inserted but nothing has be
 Version 1.1.2 adds a Bypass button with a smooth crossfade and removes the glitch heard when switching the plugin back on.
 Version 1.2.0 lets you type exact values (right-click any control) and makes pitch shifting steadier: when the pitch detector loses track (chords, noisy parts, consonants), the sound is still shifted by the Pitch amount instead of jumping back to the original pitch.
 Version 1.2.1 makes Key Lock steadier: the correction is kept through unclear parts and consonants, and small wobbles no longer make it jump between notes.
+Version 1.3.0 adds seven color themes.
 
 License: GPL-3.0, because nih-plug's VST3 bindings are GPL.
