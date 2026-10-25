@@ -1,6 +1,8 @@
 # Mutaform: voice mangler (VST3 / CLAP for Windows)
 
-Mutaform is an effect plugin for pitch, formant and harmonic manipulation of vocals and other monophonic sounds. It was written from scratch in Rust using [nih-plug](https://github.com/robbert-vdh/nih-plug). No code or graphics were taken from other products.
+Made by **Bendik Sandvold-Ertsås**.
+
+Mutaform is an effect plugin for pitch, formant and harmonic manipulation of vocals and other monophonic sounds. It is written in Rust using [nih-plug](https://github.com/robbert-vdh/nih-plug), and since version 2.0 the pitch and formant shifting is done by the [Rubber Band Library](https://breakfastquay.com/rubberband/), a proven professional pitch-shifting engine. No code or graphics were taken from the product that inspired it.
 
 ![Mutaform](screenshot.png)
 
@@ -29,7 +31,7 @@ Mutaform is an effect plugin for pitch, formant and harmonic manipulation of voc
 | **DETUNE** | Adds two voices detuned by up to ±40 cents and panned left and right. |
 | **GLIDE** | Portamento between MIDI notes and when the pitch changes, 0–1000 ms. |
 | **DETECT** | Frequency range used by the pitch detector: LOW (bass and deep voices), MID (normal vocals) or HIGH (high voices, whistle). |
-| **MIDI** | OFF: the Pitch knob is in control. MONO/POLY: MIDI notes set the pitch (a vocoder-style harmonizer, up to 8 voices in POLY). |
+| **MIDI** | OFF: the Pitch knob is in control (natural-sounding Rubber Band engine). MONO/POLY: MIDI notes set the pitch (a vocoder-style harmonizer, up to 8 voices in POLY). The MIDI modes force every note to an exact pitch, so they intentionally sound more synthetic/robotic. |
 | **KEY LOCK** (top bar) | Turn it ON and pick a key (C–B) and a scale (Major, Minor, Harm. Minor, Dorian, Mixolydian, Penta Major/Minor, Blues, Chromatic). Each note is pulled to the nearest note in the scale, while vibrato and natural movement are kept. The display on the right shows the note it is locking to ("LOCK → G3"). Key Lock works when MIDI is set to OFF. |
 | **DRY/WET**, **OUTPUT** | Mix and output level. |
 | **Power button** (top left) | Bypass with a smooth crossfade. This is the plugin's own bypass parameter, so automate it in FL Studio (right-click it → *Create automation clip*) instead of switching the mixer slot on and off. |
@@ -60,7 +62,7 @@ Choose presets with the arrows at the top, or click the preset name to get a lis
   - S, t and breath sounds now pass through without the Octave, Detune and Alternator copies, so they don't crackle.
 - With every knob at its default (the Init preset), Mutaform is fully transparent: the sound passes through untouched, only delayed by the latency. Processing fades in smoothly as soon as you change something.
 - **Switching on and off with automation:** automate the power button (Bypass) or Dry/Wet for clean switching. If you switch the mixer slot itself on and off instead, FL Studio stops sending audio to the plugin. When it comes back on, the plugin clears its buffers and fades in, so there is no glitch of old audio, but you will get a short gap of about 65 ms (the latency).
-- The plugin has about 65 ms of latency at 48 kHz, because it needs to look a few pitch periods ahead. FL Studio compensates for this during playback, but you will hear the delay if you record live through the effect.
+- The plugin has about 90 ms of latency at 48 kHz, which high-quality pitch shifting needs. FL Studio compensates for this during playback, but you will hear the delay if you record live through the effect.
 - Both VST3 and CLAP versions are included. FL Studio 2024 and newer support both, so use whichever you prefer.
 
 ## Building from source
@@ -78,7 +80,11 @@ cargo build --release --lib
 
 Source files:
 
-- `src/engine.rs`: the PSOLA engine (pitch, formant, alternator, octave, smear, stereo, detune, MIDI voices, key lock)
+- `src/chain.rs`: the signal chain (Rubber Band path, MIDI path, effect layers, latency alignment)
+- `src/rb.rs`: Rubber Band wrapper (real-time live shifter, latency compensation)
+- `src/layers.rs`: key lock, alternator, detune doubler, smear cloud, stereo widener
+- `src/engine.rs`: the PSOLA engine used for the MIDI modes
+- `third_party/rubberband/`: Rubber Band Library source (compiled automatically by `build.rs`)
 - `src/pitch.rs`: YIN pitch detection
 - `src/lib.rs`: plugin setup, the harmonics/FM stage and the signal chain
 - `src/fx.rs`: the four effect slots
@@ -92,5 +98,12 @@ Version 1.1.2 adds a Bypass button with a smooth crossfade and removes the glitc
 Version 1.2.0 lets you type exact values (right-click any control) and makes pitch shifting steadier: when the pitch detector loses track (chords, noisy parts, consonants), the sound is still shifted by the Pitch amount instead of jumping back to the original pitch.
 Version 1.2.1 makes Key Lock steadier: the correction is kept through unclear parts and consonants, and small wobbles no longer make it jump between notes.
 Version 1.3.0 adds seven color themes.
+Version 1.3.1 adds a "made by" credit and sets the vendor name shown in FL Studio.
+Version 2.0.0 replaces the pitch engine with Rubber Band: no more warbling, robotic or stuttering pitch shifting. Octave, Detune, Smear, Stereo and Alternator were rebuilt so they no longer depend on per-grain pitch detection.
 
-License: GPL-3.0, because nih-plug's VST3 bindings are GPL.
+## Credits
+
+- Pitch and formant shifting: Rubber Band Library, Copyright © 2007–2024 Particular Programs Ltd, licensed under the GNU GPL (version 2 or later). See `third_party/rubberband/COPYING` in the source.
+- Plugin framework: nih-plug by Robbert van der Helm.
+
+License: GPL-3.0, because nih-plug's VST3 bindings and Rubber Band are GPL. That is fine for using it in your own music. If you ever want to sell the plugin, Rubber Band offers a commercial license.
