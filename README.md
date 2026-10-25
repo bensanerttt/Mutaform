@@ -36,6 +36,7 @@ Mutaform is an effect plugin for pitch, formant and harmonic manipulation of voc
 | **FX 1–4** | Four effect slots on the processed signal: Low Pass, High Pass, Drive, Chorus, Delay, Reverb, Crush and Tremolo. Click the name to choose an effect and the power button to switch the slot on or off. |
 
 Mouse: drag up and down to adjust a knob. **Shift + drag** adjusts in finer steps, **double-click** resets to the default, and the **scroll wheel** works too.
+**Typing exact values:** right-click a knob or slider (or Ctrl + click it), type the value (for example `-7` for Pitch, or `35` for 35 %) and press **Enter**. **Esc** cancels.
 Choose presets with the arrows at the top, or click the preset name to get a list.
 
 ## Controlling Mutaform with MIDI in FL Studio (MONO/POLY)
@@ -84,5 +85,6 @@ Source files:
 Version 1.1.0 adds Key Lock and better pitch detection (fewer octave jumps and blips), and makes s and t sounds cleaner.
 Version 1.1.1 removes the stutter when the plugin is inserted but nothing has been changed (transparent bypass at default settings).
 Version 1.1.2 adds a Bypass button with a smooth crossfade and removes the glitch heard when switching the plugin back on.
+Version 1.2.0 lets you type exact values (right-click any control) and makes pitch shifting steadier: when the pitch detector loses track (chords, noisy parts, consonants), the sound is still shifted by the Pitch amount instead of jumping back to the original pitch.
 
 License: GPL-3.0, because nih-plug's VST3 bindings are GPL.
