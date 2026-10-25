@@ -86,5 +86,6 @@ Version 1.1.0 adds Key Lock and better pitch detection (fewer octave jumps and b
 Version 1.1.1 removes the stutter when the plugin is inserted but nothing has been changed (transparent bypass at default settings).
 Version 1.1.2 adds a Bypass button with a smooth crossfade and removes the glitch heard when switching the plugin back on.
 Version 1.2.0 lets you type exact values (right-click any control) and makes pitch shifting steadier: when the pitch detector loses track (chords, noisy parts, consonants), the sound is still shifted by the Pitch amount instead of jumping back to the original pitch.
+Version 1.2.1 makes Key Lock steadier: the correction is kept through unclear parts and consonants, and small wobbles no longer make it jump between notes.
 
 License: GPL-3.0, because nih-plug's VST3 bindings are GPL.
