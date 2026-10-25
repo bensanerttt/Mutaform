@@ -1,4 +1,4 @@
-# Mutaform: voice mangler (VST3 / CLAP for Windows and macOS)
+# Mutaform: voice mangler (VST3)
 
 Made by **Bendik Sandvold-Ertsås**.
 
